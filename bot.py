@@ -17,7 +17,6 @@ async def fetch(uuid, session):
             api = await api.json()
             return await track(api, uuid)
 
-
 class Bot(commands.Bot):
     main: dict[str, StatsList]
     send: dict[str, dict[str, Embed | None]]
@@ -42,32 +41,9 @@ class Bot(commands.Bot):
             uuids = Database.distinct("guilds", "users")
             for uuid in uuids:
                 self.main[uuid] = await fetch(uuid, self.session)
-        
-"""        async with aiosqlite.connect("data.db") as db:
-            async with db.cursor() as cursor:
-                await cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid varchar(32) NOT NULL)")
-                await cursor.execute("CREATE TABLE IF NOT EXISTS channels (id INTEGER PRIMARY KEY AUTOINCREMENT, channel_id TEXT NOT NULL, guild INTEGER NOT NULL)")
-                await cursor.execute("CREATE TABLE IF NOT EXISTS linking (id INTEGER PRIMARY KEY AUTOINCREMENT, channel INTEGER NOT NULL, user INTEGER NOT NULL)")
-                await cursor.execute("CREATE TABLE IF NOT EXISTS guilds (id INTEGER PRIMARY KEY AUTOINCREMENT, guild_id TEXT NOT NULL)")
-                await cursor.execute("CREATE TABLE IF NOT EXISTS channel_linked (id INTEGER PRIMARY KEY AUTOINCREMENT, guild INTEGER NOT NULL, channel INTEGER NOT NULL)")
-                await cursor.execute("CREATE TABLE IF NOT EXISTS guild_limits (id INTEGER PRIMARY KEY AUTOINCREMENT, guild INTEGER NOT NULL, limiter INTEGER NOT NULL, user_current INTEGER NOT NULL, channel_current INTEGER NOT NULL)")
-                await cursor.execute("SELECT DISTINCT users.uuid FROM linking JOIN users ON linking.user = users.id")
-                users = await cursor.fetchall()
-            uuids = [user[0] for user in users]
-            await db.commit()"""
-        # if not self.main:
-        #     main = {}
-        #     for uuid in uuids:
-        #         main[uuid] = await fetch(uuid, Bot.session)
-        #     self.main = main
-            
-
 
 intents = nextcord.Intents.default()
 bot = Bot(intents=intents)
-
-
-
 
 @tasks.loop(seconds=1)
 async def genmsg(bot: Bot):
