@@ -71,7 +71,7 @@ async def genmsg(bot: Bot):
                         stats = await fetch(uuid, bot.session)
                         
                         
-                    modes = ["Overall ", "Solo ", "Doubles ", "3v3v3v3 ", "4v4v4v4 ", "4v4 ", "Rush Doubles ", "Rush 4v4v4v4 ", "Ultimate Doubles ", "Ultimate 4v4v4v4 ", "Voidless Doubles ", "Voidless 4v4v4v4 " "Armed Doubles ", "Armed 4v4v4v4 ", "Lucky Blocks Doubles ", "Lucky Blocks 4v4v4v4 ", "Castle "]
+                    modes = ["Overall ", "Solo ", "Doubles ", "3v3v3v3 ", "4v4v4v4 ", "4v4 ", "Rush Doubles ", "Rush 4v4v4v4 ", "Ultimate Doubles ", "Ultimate 4v4v4v4 ", "Voidless Doubles ", "Voidless 4v4v4v4 ", "Swappage Doubles ", "Swappage 4v4v4v4 ", "Armed Doubles ", "Armed 4v4v4v4 ", "Lucky Blocks Doubles ", "Lucky Blocks 4v4v4v4 ", "Castle "]
                     
                     strings = {"General": ""}
                     

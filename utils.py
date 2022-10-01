@@ -431,10 +431,62 @@ async def track(data: dict, uuid: str) -> StatsList | None:
         "Bedwars": {
             "Experience": "Bedwars Experience",
             "wins_bedwars": "Overall Wins",
-            "iron_resources_collected_bedwars": "Iron Collected",
-            "gold_resources_collected_bedwars": "Gold Collected",
-            "diamond_resources_collected_bedwars": "Diamonds Collected",
-            "emerald_resources_collected_bedwars": "Emeralds Collected",
+            "iron_resources_collected_bedwars": "Overall Iron Collected",
+            "gold_resources_collected_bedwars": "Overall Gold Collected",
+            "diamond_resources_collected_bedwars": "Overall Diamonds Collected",
+            "emerald_resources_collected_bedwars": "Overall Emeralds Collected",
+            "eight_two_rush_iron_resources_collected_bedwars": "Rush Doubles Iron Collected",
+            "eight_two_rush_gold_resources_collected_bedwars": "Rush Doubles Gold Collected",
+            "eight_two_rush_diamond_resources_collected_bedwars": "Rush Doubles Diamonds Collected",
+            "eight_two_rush_emerald_resources_collected_bedwars": "Rush Doubles Emeralds Collected",
+            "four_four_rush_iron_resources_collected_bedwars": "Rush 4v4v4v4 Iron Collected",
+            "four_four_rush_gold_resources_collected_bedwars": "Rush 4v4v4v4 Gold Collected",
+            "four_four_rush_diamond_resources_collected_bedwars": "Rush 4v4v4v4 Diamonds Collected",
+            "four_four_rush_emerald_resources_collected_bedwars": "Rush 4v4v4v4 Emeralds Collected",
+            "eight_two_ultimate_iron_resources_collected_bedwars": "Ultimate Doubles Iron Collected",
+            "eight_two_ultimate_gold_resources_collected_bedwars": "Ultimate Doubles Gold Collected",
+            "eight_two_ultimate_diamond_resources_collected_bedwars": "Ultimate Doubles Diamonds Collected",
+            "eight_two_ultimate_emerald_resources_collected_bedwars": "Ultimate Doubles Emeralds Collected",
+            "four_four_ultimate_iron_resources_collected_bedwars": "Ultimate 4v4v4v4 Iron Collected",
+            "four_four_ultimate_gold_resources_collected_bedwars": "Ultimate 4v4v4v4 Gold Collected",
+            "four_four_ultimate_diamond_resources_collected_bedwars": "Ultimate 4v4v4v4 Diamonds Collected",
+            "four_four_ultimate_emerald_resources_collected_bedwars": "Ultimate 4v4v4v4 Emeralds Collected",
+            "eight_two_voidless_iron_resources_collected_bedwars": "Voidless Doubles Iron Collected",
+            "eight_two_voidless_gold_resources_collected_bedwars": "Voidless Doubles Gold Collected",
+            "eight_two_voidless_diamond_resources_collected_bedwars": "Voidless Doubles Diamonds Collected",
+            "eight_two_voidless_emerald_resources_collected_bedwars": "Voidless Doubles Emeralds Collected",
+            "four_four_voidless_iron_resources_collected_bedwars": "Voidless 4v4v4v4 Iron Collected",
+            "four_four_voidless_gold_resources_collected_bedwars": "Voidless 4v4v4v4 Gold Collected",
+            "four_four_voidless_diamond_resources_collected_bedwars": "Voidless 4v4v4v4 Diamonds Collected",
+            "four_four_voidless_emerald_resources_collected_bedwars": "Voidless 4v4v4v4 Emeralds Collected",
+            "eight_two_swap_iron_resources_collected_bedwars": "Swappage Doubles Iron Collected",
+            "eight_two_swap_gold_resources_collected_bedwars": "Swappage Doubles Gold Collected",
+            "eight_two_swap_diamond_resources_collected_bedwars": "Swappage Doubles Diamonds Collected",
+            "eight_two_swap_emerald_resources_collected_bedwars": "Swappage Doubles Emeralds Collected",
+            "four_four_swap_iron_resources_collected_bedwars": "Swappage 4v4v4v4 Iron Collected",
+            "four_four_swap_gold_resources_collected_bedwars": "Swappage 4v4v4v4 Gold Collected",
+            "four_four_swap_diamond_resources_collected_bedwars": "Swappage 4v4v4v4 Diamonds Collected",
+            "four_four_swap_emerald_resources_collected_bedwars": "Swappage 4v4v4v4 Emeralds Collected",
+            "eight_two_armed_iron_resources_collected_bedwars": "Armed Doubles Iron Collected",
+            "eight_two_armed_gold_resources_collected_bedwars": "Armed Doubles Gold Collected",
+            "eight_two_armed_diamond_resources_collected_bedwars": "Armed Doubles Diamonds Collected",
+            "eight_two_armed_emerald_resources_collected_bedwars": "Armed Doubles Emeralds Collected",
+            "four_four_armed_iron_resources_collected_bedwars": "Armed 4v4v4v4 Iron Collected",
+            "four_four_armed_gold_resources_collected_bedwars": "Armed 4v4v4v4 Gold Collected",
+            "four_four_armed_diamond_resources_collected_bedwars": "Armed 4v4v4v4 Diamonds Collected",
+            "four_four_armed_emerald_resources_collected_bedwars": "Armed 4v4v4v4 Emeralds Collected",
+            "eight_two_lucky_iron_resources_collected_bedwars": "Lucky Blocks Doubles Iron Collected",
+            "eight_two_lucky_gold_resources_collected_bedwars": "Lucky Blocks Doubles Gold Collected",
+            "eight_two_lucky_diamond_resources_collected_bedwars": "Lucky Blocks Doubles Diamonds Collected",
+            "eight_two_lucky_emerald_resources_collected_bedwars": "Lucky Blocks Doubles Emeralds Collected",
+            "four_four_lucky_iron_resources_collected_bedwars": "Lucky Blocks 4v4v4v4 Iron Collected",
+            "four_four_lucky_gold_resources_collected_bedwars": "Lucky Blocks 4v4v4v4 Gold Collected",
+            "four_four_lucky_diamond_resources_collected_bedwars": "Lucky Blocks 4v4v4v4 Diamonds Collected",
+            "four_four_lucky_emerald_resources_collected_bedwars": "Lucky Blocks 4v4v4v4 Emeralds Collected",
+            "castle_iron_resources_collected_bedwars": "Castle Iron Collected",
+            "castle_gold_resources_collected_bedwars": "Castle Gold Collected",
+            "castle_diamond_resources_collected_bedwars": "Castle Diamonds Collected",
+            "castle_emerald_resources_collected_bedwars": "Castle Emeralds Collected",
             "eight_one_wins_bedwars": "Solo Wins",
             "eight_two_wins_bedwars": "Doubles Wins",
             "four_three_wins_bedwars": "3v3v3v3 Wins",
@@ -842,9 +894,18 @@ async def track(data: dict, uuid: str) -> StatsList | None:
                             golden = data["player"]["stats"]["Bedwars"].get("bedwars_golden_boxes", 0)
                             loot_chests_all = boxes + christmas + haloween + easter + lunar + golden
                             
+                            iron_collected = sum((stats["Bedwars"]["Overall Iron Collected"], stats["Bedwars"]["Rush Doubles Iron Collected"], stats["Bedwars"]["Rush 4v4v4v4 Iron Collected"], stats["Bedwars"]["Ultimate Doubles Iron Collected"], stats["Bedwars"]["Ultimate 4v4v4v4 Iron Collected"], stats["Bedwars"]["Voidless Doubles Iron Collected"], stats["Bedwars"]["Voidless 4v4v4v4 Iron Collected"], stats["Bedwars"]["Swappage Doubles Iron Collected"], stats["Bedwars"]["Swappage 4v4v4v4 Iron Collected"], stats["Bedwars"]["Armed Doubles Iron Collected"], stats["Bedwars"]["Armed 4v4v4v4 Iron Collected"], stats["Bedwars"]["Lucky Blocks Doubles Iron Collected"], stats["Bedwars"]["Lucky Blocks 4v4v4v4 Iron Collected"], stats["Bedwars"]["Castle Iron Collected"]))
+                            gold_collected = sum((stats["Bedwars"]["Overall Gold Collected"], stats["Bedwars"]["Rush Doubles Gold Collected"], stats["Bedwars"]["Rush 4v4v4v4 Gold Collected"], stats["Bedwars"]["Ultimate Doubles Gold Collected"], stats["Bedwars"]["Ultimate 4v4v4v4 Gold Collected"], stats["Bedwars"]["Voidless Doubles Gold Collected"], stats["Bedwars"]["Voidless 4v4v4v4 Gold Collected"], stats["Bedwars"]["Swappage Doubles Gold Collected"], stats["Bedwars"]["Swappage 4v4v4v4 Gold Collected"], stats["Bedwars"]["Armed Doubles Gold Collected"], stats["Bedwars"]["Armed 4v4v4v4 Gold Collected"], stats["Bedwars"]["Lucky Blocks Doubles Gold Collected"], stats["Bedwars"]["Lucky Blocks 4v4v4v4 Gold Collected"], stats["Bedwars"]["Castle Gold Collected"]))
+                            diamonds_collected = sum((stats["Bedwars"]["Overall Diamonds Collected"], stats["Bedwars"]["Rush Doubles Diamonds Collected"], stats["Bedwars"]["Rush 4v4v4v4 Diamonds Collected"], stats["Bedwars"]["Ultimate Doubles Diamonds Collected"], stats["Bedwars"]["Ultimate 4v4v4v4 Diamonds Collected"], stats["Bedwars"]["Voidless Doubles Diamonds Collected"], stats["Bedwars"]["Voidless 4v4v4v4 Diamonds Collected"], stats["Bedwars"]["Swappage Doubles Diamonds Collected"], stats["Bedwars"]["Swappage 4v4v4v4 Diamonds Collected"], stats["Bedwars"]["Armed Doubles Diamonds Collected"], stats["Bedwars"]["Armed 4v4v4v4 Diamonds Collected"], stats["Bedwars"]["Lucky Blocks Doubles Diamonds Collected"], stats["Bedwars"]["Lucky Blocks 4v4v4v4 Diamonds Collected"], stats["Bedwars"]["Castle Diamonds Collected"]))
+                            emeralds_collected = sum((stats["Bedwars"]["Overall Emeralds Collected"], stats["Bedwars"]["Rush Doubles Emeralds Collected"], stats["Bedwars"]["Rush 4v4v4v4 Emeralds Collected"], stats["Bedwars"]["Ultimate Doubles Emeralds Collected"], stats["Bedwars"]["Ultimate 4v4v4v4 Emeralds Collected"], stats["Bedwars"]["Voidless Doubles Emeralds Collected"], stats["Bedwars"]["Voidless 4v4v4v4 Emeralds Collected"], stats["Bedwars"]["Swappage Doubles Emeralds Collected"], stats["Bedwars"]["Swappage 4v4v4v4 Emeralds Collected"], stats["Bedwars"]["Armed Doubles Emeralds Collected"], stats["Bedwars"]["Armed 4v4v4v4 Emeralds Collected"], stats["Bedwars"]["Lucky Blocks Doubles Emeralds Collected"], stats["Bedwars"]["Lucky Blocks 4v4v4v4 Emeralds Collected"], stats["Bedwars"]["Castle Emeralds Collected"]))
+                            
                             stats["Bedwars"].update({
                                 "Stars": data["player"]["achievements"].get("bedwars_level", 0), 
-                                "Loot Chests": loot_chests_all
+                                "Loot Chests": loot_chests_all,
+                                "Iron Collected": iron_collected,
+                                "Gold Collected": gold_collected,
+                                "Diamonds Collected": diamonds_collected,
+                                "Emeralds Collected": emeralds_collected
                                 })
                             
                         elif key == "Duels":
