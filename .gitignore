@@ -1,0 +1,10 @@
+test*
+modals/
+__pycache__/
+
+
+cog.py
+snippets.py
+
+modules/hypixel.py
+modules/tracker.py
