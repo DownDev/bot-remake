@@ -48,7 +48,6 @@ bot = Bot(intents=intents)
 @tasks.loop(seconds=1)
 async def genmsg(bot: Bot):
     if bot.main:
-        print(bot.main)
         uuids = Database.distinct("guilds", "users")
         # uuids = ["6500f9522334438080e6e5f39c73c774"]
         WAIT_TIME = 30 / len(uuids)
