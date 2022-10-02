@@ -5,6 +5,7 @@ import random
 from typing import Union
 from collections import defaultdict
 from range_key_dict import RangeKeyDict
+from dataclasses import dataclass
 
 from emojis import *
 
@@ -111,20 +112,169 @@ def getLevelForExp(exp):
 
 
 
-def get_emoji(stat, before, after, modes):
-    if "Los" in stat or "Death" in stat:
-        emoji = "🔻"
-    elif before < after:
-        emoji = "<:small_green_triangle_up:977158469973061682>"
-    else:
-        emoji = "🔻"
-    # modes = ["Overall ", "Solo ", "Doubles ", "3v3v3v3 ", "4v4v4v4 ", "4v4 ", "Rush ", "Ultimate ", "Voidless ", "Armed ", "Lucky Blocks ", "Castle "]
-    for mode in modes[::-1]:
-        stat = stat.replace(mode, "")
-    stat = stat.replace("Overall ", "")
-    return f'**{stat}** {emoji}:'
 
-star_color = RangeKeyDict({
+
+
+
+
+
+
+
+
+
+
+def calc_ratio(k: int, d: int) -> int | float:
+    if d == 0:
+        return k
+    else:  
+        return round(k / d, 2)
+
+async def get_uuid(uuid, session):
+    async with session.get(f"https://api.ashcon.app/mojang/v2/user/{uuid}") as api:
+        if api.status == 200:
+            result = await api.json()
+            uuid = result["uuid"].replace("-", "")
+            displayname = result["username"]
+            return uuid, utils.escape_markdown(displayname)
+    return None, None
+
+async def ifexists(uuid, session, full_check=True):
+    async with session.get(f"https://api.hypixel.net/player?key=85c47906-73f1-4a25-8717-f9af3e177e18&uuid={uuid}") as api:
+        api = await api.json()
+        if "success" in api and "player" in api:
+            if api["success"] and api["player"]:
+                if not full_check:
+                    return api
+                if "stats" in api["player"] and "achievements" in api["player"]:
+                    if "Bedwars" in api["player"]["stats"]:
+                        return api
+    return False
+
+# class Bedwars():
+#     stats: dict
+    
+#     def __init__(self, stats):
+#         self.stats = stats
+
+        
+#     def __dict__(self):
+#         return self.stats
+
+#     def get_mode(self, mode):
+#         return {k: v for k, v in self.stats.items() if k.startswith(mode)}
+    
+    
+#     @staticmethod
+#     def get_bar(exp, star = None):
+#         level = getLevelForExp(exp)
+#         percent = (level - int(level)) * 100
+#         SIZE = 100 / 13
+#         amount = int(percent // SIZE)
+#         until_pres = int(level + 1) % 100
+#         if until_pres > 4:
+#             n = 5000
+#         elif until_pres == 1:
+#             n = 500
+#         elif until_pres == 2:
+#             n = 1000
+#         elif until_pres == 3:
+#             n = 2000
+#         elif until_pres == 4:
+#             n = 3500
+#         else:
+#             n = 5000
+#         curr_exp = int(percent / 100 * n)
+#         if int(level + 1) % 100 == 0:
+#             new_level = Bedwars.prestige_name(int(level + 1))
+#         else:
+#             new_level = f"Level {int(level + 1)}"
+#         if not star:
+#             return f'**Level {int(level)}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{new_level}**\n[{BWEXP_FILLED * amount + BWEXP_MISSING * (13 - amount)}]\n⠀⠀⠀⠀⠀⠀⠀**{curr_exp:,}**/**{n:,}** (**{curr_exp / n * 100:.1f}%**)\n'
+#         else:
+#             return f'**Level {star - 1}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{Bedwars.prestige_name(star)}**\n[{BWEXP_FILLED * 13}]\n**LEVEL UP!** You are now **{Bedwars.prestige_name(star)}**\n'
+
+        
+# class Duels():
+#     stats: dict
+    
+#     def __init__(self, stats):
+#         self.stats = stats
+        
+#         self.wins_title = RangeKeyDict({
+#         (0, 50): (None, 50, 0),
+#         (50, 60): ('Rookie', 60, 50),
+#         (60, 70): ('Rookie II', 70, 60),      
+#         (70, 80): ('Rookie III', 80, 70),     
+#         (80, 90): ('Rookie IV', 90, 80),      
+#         (90, 100): ('Rookie V', 100, 90),     
+#         (100, 130): ('Iron', 130, 100),       
+#         (130, 160): ('Iron II', 160, 130),    
+#         (160, 190): ('Iron III', 190, 160),   
+#         (190, 220): ('Iron IV', 220, 190),    
+#         (220, 250): ('Iron V', 250, 220),     
+#         (250, 300): ('Gold', 300, 250),       
+#         (300, 350): ('Gold II', 350, 300),    
+#         (350, 400): ('Gold III', 400, 350),   
+#         (400, 450): ('Gold IV', 450, 400),    
+#         (450, 500): ('Gold V', 500, 450),     
+#         (500, 600): ('Diamond', 600, 500),    
+#         (600, 700): ('Diamond II', 700, 600), 
+#         (700, 800): ('Diamond III', 800, 700),
+#         (800, 900): ('Diamond IV', 900, 800), 
+#         (900, 1000): ('Diamond V', 1000, 900),
+#         (1000, 1200): ('Master', 1200, 1000),
+#         (1200, 1400): ('Master II', 1400, 1200),
+#         (1400, 1600): ('Master III', 1600, 1400),
+#         (1600, 1800): ('Master IV', 1800, 1600),
+#         (1800, 2000): ('Master V', 2000, 1800),
+#         (2000, 2600): ('Legend', 2600, 2000),
+#         (2600, 3200): ('Legend II', 3200, 2600),
+#         (3200, 3800): ('Legend III', 3800, 3200),
+#         (3800, 4400): ('Legend IV', 4400, 3800),
+#         (4400, 5000): ('Legend V', 5000, 4400),
+#         (5000, 6000): ('Grandmaster', 6000, 5000),
+#         (6000, 7000): ('Grandmaster II', 7000, 6000),
+#         (7000, 8000): ('Grandmaster III', 8000, 7000),
+#         (8000, 9000): ('Grandmaster IV', 9000, 8000),
+#         (9000, 10000): ('Grandmaster V', 10000, 9000),
+#         (10000, 13000): ('Godlike', 13000, 10000),
+#         (13000, 16000): ('Godlike II', 16000, 13000),
+#         (16000, 19000): ('Godlike III', 19000, 16000),
+#         (19000, 22000): ('Godlike IV', 22000, 19000),
+#         (22000, 25000): ('Godlike V', 25000, 22000),
+#         (25000, 30000): ('Celestial', 30000, 25000),
+#         (30000, 35000): ('Celestial II', 35000, 30000),
+#         (35000, 40000): ('Celestial III', 40000, 35000),
+#         (40000, 45000): ('Celestial IV', 45000, 40000),
+#         (45000, 50000): ('Celestial V', 50000, 45000),
+#         (50000, 60000): ('Divine', 60000, 50000),
+#         (60000, 70000): ('Divine II', 70000, 60000),
+#         (70000, 80000): ('Divine III', 80000, 70000),
+#         (80000, 90000): ('Divine IV', 90000, 80000),
+#         (90000, 100000): ('Divine V', 100000, 90000),
+#         (100000, 10000000): ('Ascended', 10000000, 100000),
+#         })
+   
+#     def get_bar(self, wins):
+#         wins_next = self.wins_title[wins][1]
+#         starter = self.wins_title[wins][2]
+#         title = self.wins_title[wins][0]
+#         title_next = titles[titles.index(title) + 1]
+
+#         percent = (wins - starter) / (wins_next - starter) * 100
+#         SIZE = 100 / 13
+#         amount = int(percent // SIZE)
+#         return f"**{title_next}** unlocked in **{wins_next - wins:,}** more wins!\n({DEXP * amount + BWEXP_MISSING * (13 - amount)})\n⠀⠀⠀⠀⠀⠀⠀⠀**{wins:,}**/**{wins_next:,}** (**{round(percent, 1)}%**)\n"
+
+
+    
+@dataclass
+class Bedwars:
+    stats: dict
+    
+    prestige_names = {100: 'Iron Prestige', 200: 'Gold Prestige', 300: 'Diamond Prestige', 400: 'Emerald Prestige', 500: 'Sapphire Prestige', 600: 'Ruby Prestige', 700: 'Crystal Prestige', 800: 'Opal Prestige', 900: 'Amethyst Prestige', 1000: 'Rainbow Prestige', 1100: 'Iron Prime Prestige', 1200: 'Gold Prime Prestige', 1300: 'Diamond Prime Prestige', 1400: 'Emerald Prime Prestige', 1500: 'Sapphire Prime Prestige', 1600: 'Ruby Prime Prestige', 1700: 'Crystal Prime Prestige', 1800: 'Opal Prime Prestige', 1900: 'Amethyst Prime Prestige', 2000: 'Mirror Prestige', 2100: 'Light Prestige', 2200: 'Dawn Prestige', 2300: 'Dusk Prestige', 2400: 'Air Prestige', 2500: 'Wind Prestige', 2600: 'Nebula Prestige', 2700: 'Thunder Prestige', 2800: 'Earth Prestige', 2900: 'Water Prestige', 3000: 'Fire Prestige'}
+    
+    star_color = RangeKeyDict({
     (0, 100): 0xaaaaaa,
     (100, 200): 0xffffff,
     (200, 300): 0xffaa00,
@@ -158,140 +308,24 @@ star_color = RangeKeyDict({
     (3000, 10000): 0xffaa00
 })
 
-star_icon = RangeKeyDict({
-    (0, 1100): "✫",
-    (1100, 2100): "✪",
-    (2100, 10000): "⚝"
-})
-
-
-
-titles = [None, 'Rookie', 'Rookie II', 'Rookie III', 'Rookie IV', 'Rookie V', 'Iron', 'Iron II', 'Iron III', 'Iron IV', 'Iron V', 'Gold', 'Gold II', 'Gold III', 'Gold IV', 'Gold V', 'Diamond', 'Diamond II', 'Diamond III', 'Diamond IV', 'Diamond V', 'Master', 'Master II', 'Master III', 'Master IV', 'Master V', 'Legend', 'Legend II', 'Legend III', 'Legend IV', 'Legend V', 'Grandmaster', 'Grandmaster II', 'Grandmaster III', 'Grandmaster IV', 'Grandmaster V', 'Godlike', 'Godlike II', 'Godlike III', 'Godlike IV', 
-'Godlike V', 'Celestial', 'Celestial II', 'Celestial III', 'Celestial IV', 'Celestial V', 'Divine', 'Divine II', 'Divine III', 'Divine IV', 'Divine V', 'Ascended']
-
-
-def level(star: int):
-    icon = star_icon[star]
-    color = star_color[star]
-    return color, icon
-
-def calc_ratio(k: int, d: int) -> int | float:
-    if d == 0:
-        return k
-    else:  
-        return round(k / d, 2)
-
-async def get_uuid(uuid, session):
-    async with session.get(f"https://api.ashcon.app/mojang/v2/user/{uuid}") as api:
-        if api.status == 200:
-            result = await api.json()
-            uuid = result["uuid"].replace("-", "")
-            displayname = result["username"]
-            return uuid, utils.escape_markdown(displayname)
-    return None, None
-
-async def ifexists(uuid, session, full_check=True):
-    async with session.get(f"https://api.hypixel.net/player?key=85c47906-73f1-4a25-8717-f9af3e177e18&uuid={uuid}") as api:
-        api = await api.json()
-        if "success" in api and "player" in api:
-            if api["success"] and api["player"]:
-                if not full_check:
-                    return api
-                if "stats" in api["player"] and "achievements" in api["player"]:
-                    if "Bedwars" in api["player"]["stats"]:
-                        return api
-    return False
-
-class Mode():
-    def __init__(self, name, stats):
-        self.name = name
-        self.stats = stats
-        
-    def __dict__(self):
-        return self.stats
-        
+    star_icon = RangeKeyDict({
+        (0, 1100): "✫",
+        (1100, 2100): "✪",
+        (2100, 10000): "⚝"
+    })
     
+    def __ne__(self, other):
+        return self.stats != other.stats
     
-    
-
-class Bedwars():
-    stats: dict
-    
-    def __init__(self, stats):
-        self.stats = stats
-
-        
-    def __dict__(self):
-        return self.stats
-
-    def get_mode(self, mode):
-        return {k: v for k, v in self.stats.items() if k.startswith(mode)}
-        
     @staticmethod
     def prestige_name(star):
-        if star % 100 == 0:
-            if star == 100:
-                return "Iron Prestige"
-            elif star == 200:
-                return "Gold Prestige"
-            elif star == 300:
-                return "Diamond Prestige"
-            elif star == 400:
-                return "Emerald Prestige"
-            elif star == 500:
-                return "Sapphire Prestige"
-            elif star == 600:
-                return "Ruby Prestige"
-            elif star == 700:
-                return "Crystal Prestige"
-            elif star == 800:
-                return "Opal Prestige"
-            elif star == 900:
-                return "Amethyst Prestige"
-            elif star == 1000:
-                return "Rainbow Prestige"
-            elif star == 1100:
-                return "Iron Prime Prestige"
-            elif star == 1200:
-                return "Gold Prime Prestige"
-            elif star == 1300:
-                return "Diamond Prime Prestige"
-            elif star == 1400:
-                return "Emerald Prime Prestige"
-            elif star == 1500:
-                return "Sapphire Prime Prestige"
-            elif star == 1600:
-                return "Ruby Prime Prestige"
-            elif star == 1700:
-                return "Crystal Prime Prestige"
-            elif star == 1800:
-                return "Opal Prime Prestige"
-            elif star == 1900:
-                return "Amethyst Prime Prestige"
-            elif star == 2000:
-                return "Mirror Prestige"
-            elif star == 2100:
-                return "Light Prestige"
-            elif star == 2200:
-                return "Dawn Prestige"
-            elif star == 2300:
-                return "Dusk Prestige"
-            elif star == 2400:
-                return "Air Prestige"
-            elif star == 2500:
-                return "Wind Prestige"
-            elif star == 2600:
-                return "Nebula Prestige"
-            elif star == 2700:
-                return "Thunder Prestige"
-            elif star == 2800:
-                return "Earth Prestige"
-            elif star == 2900:
-                return "Water Prestige"
-            elif star == 3000:
-                return "Fire Prestige"
-        return f"Level {star}"
+        return Bedwars.prestige_names.get(star, f"Level {star}")
     
+    @staticmethod
+    def level(star: int):
+        icon = Bedwars.star_icon[star]
+        color = Bedwars.star_color[star]
+        return color, icon
     
     @staticmethod
     def get_bar(exp, star = None):
@@ -313,23 +347,18 @@ class Bedwars():
         else:
             n = 5000
         curr_exp = int(percent / 100 * n)
-        if int(level + 1) % 100 == 0:
-            new_level = Bedwars.prestige_name(int(level + 1))
-        else:
-            new_level = f"Level {int(level + 1)}"
+        new_level = Bedwars.prestige_name(level + 1)
         if not star:
             return f'**Level {int(level)}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{new_level}**\n[{BWEXP_FILLED * amount + BWEXP_MISSING * (13 - amount)}]\n⠀⠀⠀⠀⠀⠀⠀**{curr_exp:,}**/**{n:,}** (**{curr_exp / n * 100:.1f}%**)\n'
         else:
             return f'**Level {star - 1}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{Bedwars.prestige_name(star)}**\n[{BWEXP_FILLED * 13}]\n**LEVEL UP!** You are now **{Bedwars.prestige_name(star)}**\n'
-
-        
-class Duels():
+@dataclass
+class Duels:
     stats: dict
     
-    def __init__(self, stats):
-        self.stats = stats
-        
-        self.wins_title = RangeKeyDict({
+    titles = [None, 'Rookie', 'Rookie II', 'Rookie III', 'Rookie IV', 'Rookie V', 'Iron', 'Iron II', 'Iron III', 'Iron IV', 'Iron V', 'Gold', 'Gold II', 'Gold III', 'Gold IV', 'Gold V', 'Diamond', 'Diamond II', 'Diamond III', 'Diamond IV', 'Diamond V', 'Master', 'Master II', 'Master III', 'Master IV', 'Master V', 'Legend', 'Legend II', 'Legend III', 'Legend IV', 'Legend V', 'Grandmaster', 'Grandmaster II', 'Grandmaster III', 'Grandmaster IV', 'Grandmaster V', 'Godlike', 'Godlike II', 'Godlike III', 'Godlike IV', 'Godlike V', 'Celestial', 'Celestial II', 'Celestial III', 'Celestial IV', 'Celestial V', 'Divine', 'Divine II', 'Divine III', 'Divine IV', 'Divine V', 'Ascended']
+    
+    wins_title = RangeKeyDict({
         (0, 50): (None, 50, 0),
         (50, 60): ('Rookie', 60, 50),
         (60, 70): ('Rookie II', 70, 60),      
@@ -383,48 +412,77 @@ class Duels():
         (90000, 100000): ('Divine V', 100000, 90000),
         (100000, 10000000): ('Ascended', 10000000, 100000),
         })
-   
-    def get_bar(self, wins):
-        wins_next = self.wins_title[wins][1]
-        starter = self.wins_title[wins][2]
-        title = self.wins_title[wins][0]
-        title_next = titles[titles.index(title) + 1]
+    
+    wins_color = RangeKeyDict({
+        (0, 100): 0x535252,
+        (100, 250): 0xe7e7e7,
+        (250, 500): 0xe79a00,
+        (500, 1000): 0x009696,
+        (1000, 2000): 0x00a201,
+        (2000, 5000): 0x970000,
+        (5000, 10000): 0xf4f553,
+        (10000, 22000): 0x9a009a,
+        (22000, 50000): 0x55ffff,
+        (50000, 100000): 0xfe55fe,
+        (100000, 10000000): 0xff5555,
+        })
+    
+    def __ne__(self, other):
+        return self.stats != other.stats
+    
+    @staticmethod
+    def get_bar(wins):
+        title, wins_next, starter = Duels.wins_title[wins]
+        title_next = Duels.titles[Duels.titles.index(title) + 1]
 
         percent = (wins - starter) / (wins_next - starter) * 100
         SIZE = 100 / 13
         amount = int(percent // SIZE)
         return f"**{title_next}** unlocked in **{wins_next - wins:,}** more wins!\n({DEXP * amount + BWEXP_MISSING * (13 - amount)})\n⠀⠀⠀⠀⠀⠀⠀⠀**{wins:,}**/**{wins_next:,}** (**{round(percent, 1)}%**)\n"
-
-class StatsList():
-    def __init__(self, stats, rank, displayname):
-        self.stats = stats
-        self.bedwars = Bedwars(stats["Bedwars"])
-        self.duels = Duels(stats["Duels"])
-        self.rank = rank
-        self.displayname = displayname
-        
-        
+@dataclass
+class StatsList:
+    bedwars: Bedwars
+    duels: Duels
+    displayname: str
+    rank: str
+    
+    def __bool__(self):
+        return bool(self.bedwars and self.duels)
+    
     @staticmethod
-    def sort_modes(data, modes):
+    def sort_modes(data: dict, modes: list[str]) -> dict:
         result = defaultdict(dict)
         for key, value in data.items():
             starters = [mode for mode in modes if key.startswith(mode)]
             result[starters[0] if starters else 'General'].update({key: value})
-        return result    
+        return result
     
     @staticmethod
     def wins_losses(data):
         return [k for k in data.keys() if not "Overall " in k and (k.endswith("Wins") or k.endswith("Losses"))]
-        
-        
-    def __dict__(self):
-        return self.stats
     
-    def __ne__(self, other):
-        return self.stats != other.stats
+    @staticmethod
+    def get_emoji(stat, before, after, modes):
+        if "Los" in stat or "Death" in stat:
+            emoji = "🔻"
+        elif before < after:
+            emoji = "<:small_green_triangle_up:977158469973061682>"
+        else:
+            emoji = "🔻"
+        for mode in modes[::-1]:
+            stat = stat.replace(mode, "")
+        stat = stat.replace("Overall ", "")
+        return f'**{stat}** {emoji}:'
+
     
-    def __eq__(self, other):
-        return self.stats == other.stats
+    
+    
+    
+    
+    
+    
+    
+    
 
 async def track(data: dict, uuid: str) -> StatsList | None:
     mapping = {
@@ -914,7 +972,7 @@ async def track(data: dict, uuid: str) -> StatsList | None:
                     rank = get_rank(data)
                     displayname = data["player"]["displayname"]
    
-                    return StatsList(stats, rank, displayname)
+                    return StatsList(Bedwars(stats["Bedwars"]), Duels(stats["Duels"]), displayname, rank)
                 else:
                     print(f"Not success 4: ({uuid})")
             else:
