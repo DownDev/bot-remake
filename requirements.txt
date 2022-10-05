@@ -1,0 +1,9 @@
+aiohttp==3.8.1
+aiosqlite==0.17.0
+asyncratelimiter==1.0.0
+function_cooldowns==1.4.0
+matplotlib==3.5.1
+nextcord==2.2.0
+pymongo==4.2.0
+range_key_dict==1.1.0
+requests==2.28.1
