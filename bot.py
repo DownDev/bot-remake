@@ -18,15 +18,12 @@ async def fetch(uuid, session):
             return await track(api, uuid)
 
 class Bot(commands.Bot):
-    main: dict[str, StatsList]
-    send: dict[str, dict[str, Embed | None]]
+    main: dict[str, StatsList] = {}
+    send: dict[str, dict[str, Embed | None]] = {}
     session = aiohttp.ClientSession()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        self.main = {}
-        self.send = {}
         
         Database.initialize()
         
@@ -37,41 +34,41 @@ class Bot(commands.Bot):
     async def on_ready(self):
         print(f"Logged in as {self.user} (ID: {self.user.id})")
         
-        if not self.main:
+        if not Bot.main:
             uuids = Database.distinct("guilds", "users")
             for uuid in uuids:
-                self.main[uuid] = await fetch(uuid, self.session)
+                Bot.main[uuid] = await fetch(uuid, self.session)
 
 intents = Intents.default()
 bot = Bot(intents=intents)
 
 @tasks.loop(seconds=1)
 async def genmsg(bot: Bot):
-    if bot.main:
+    if Bot.main:
         uuids = Database.distinct("guilds", "users")
         WAIT_TIME = 600 / len(uuids)
         config = Database.list_documents("guilds", ["channels"], False)
         for uuid in uuids:
-            bot.send[uuid] = {"bedwars": None, "duels": None}
+            Bot.send[uuid] = {"bedwars": None, "duels": None}
             await asyncio.sleep(WAIT_TIME)
             stats = await fetch(uuid, bot.session)
             if stats:
-                if uuid not in bot.main.keys():
+                if uuid not in Bot.main.keys():
                     print(uuid)
-                    bot.main[uuid] = await fetch(uuid, bot.session)
+                    Bot.main[uuid] = await fetch(uuid, bot.session)
                     
                 name = stats.displayname
                 rank = stats.rank
                 bedwars = stats.bedwars
                 duels = stats.duels
                 
-                if bedwars != bot.main[uuid].bedwars:
+                if bedwars != Bot.main[uuid].bedwars:
                     modes = ["Overall ", "Solo ", "Doubles ", "3v3v3v3 ", "4v4v4v4 ", "4v4 ", "Rush Doubles ", "Rush 4v4v4v4 ", "Ultimate Doubles ", "Ultimate 4v4v4v4 ", "Voidless Doubles ", "Voidless 4v4v4v4 ", "Swappage Doubles ", "Swappage 4v4v4v4 ", "Armed Doubles ", "Armed 4v4v4v4 ", "Lucky Blocks Doubles ", "Lucky Blocks 4v4v4v4 ", "Castle "]
                     
                     strings = {"General": ""}
                     strings.update({mode: "" for mode in modes})
                     
-                    not_matching = {k: v for k, v in bedwars.stats.items() if bot.main[uuid].bedwars.stats[k] != v}
+                    not_matching = {k: v for k, v in bedwars.stats.items() if Bot.main[uuid].bedwars.stats[k] != v}
                     
                     did_won = stats.wins_losses(not_matching)
                     if did_won:
@@ -86,7 +83,7 @@ async def genmsg(bot: Bot):
                         for stat, emoji in zip(collected, emojis):
                             current = not_matching.pop(stat, 0)
                             if current:
-                                before = bot.main[uuid].bedwars.stats[stat]
+                                before = Bot.main[uuid].bedwars.stats[stat]
                                 description += f"{emoji} {current-before} "
                             else:
                                 description += f"{emoji} 0 "
@@ -95,7 +92,7 @@ async def genmsg(bot: Bot):
                         for mode, dct in sort.items():
                             count = dct.copy()
                             for stat, value in dct.items():
-                                before = bot.main[uuid].bedwars.stats[stat]
+                                before = Bot.main[uuid].bedwars.stats[stat]
                                 emote = REPLYCONTINUE if len(count) > 1 else REPLY
                                 if mode == "General":
                                     strings["General"] += f"{emote}**{stat}** earned: **{value-before:+,}**\n"
@@ -113,16 +110,16 @@ async def genmsg(bot: Bot):
                         embed.set_thumbnail(url=f"https://mc-heads.net/avatar/{uuid}")
                         embed.set_footer(text="Tracking Bot | Beta 3")
                         embed.timestamp = datetime.datetime.now()
-                        bot.send[uuid]["bedwars"] = embed
-                        bot.main[uuid].bedwars.stats = bedwars.stats
+                        Bot.send[uuid]["bedwars"] = embed
+                        Bot.main[uuid].bedwars.stats = bedwars.stats
                         
-                if duels != bot.main[uuid].duels:
+                if duels != Bot.main[uuid].duels:
                     modes = ["Overall ", "UHC Overall ", "UHC Duel ", "UHC Doubles ", "UHC Teams ", "UHC Deathmatch ", "Bridge Overall ", "Bridge Duel ", "Bridge Doubles ", "Bridge 3v3 ", "Bridge Teams ", "Bridge 2v2v2v2 ", "Bridge 3v3v3v3 ", "Bridge CTF Threes ", "Sumo Duel ", "Classic Duel ", "SkyWars Overall ", "SkyWars Duel ", "SkyWars Doubles ", "Parkour Duel ", "Boxing Duel ", "Bow Duel ", "NoDebuff Duel ", "Combo Duel ", "OP Overall ", "OP Duel ", "OP Doubles ", "MegaWalls Overall ", "MegaWalls Duel ", "MegaWalls Doubles ", "Blitz Duel ", "Bow Spleef Duel "]
                     
                     strings = {"General": ""}
                     strings.update({mode: "" for mode in modes})
                     
-                    not_matching = {k: v for k, v in duels.stats.items() if bot.main[uuid].duels.stats[k] != v}
+                    not_matching = {k: v for k, v in duels.stats.items() if Bot.main[uuid].duels.stats[k] != v}
                     
                     did_won = stats.wins_losses(not_matching)
                     if did_won:
@@ -133,7 +130,7 @@ async def genmsg(bot: Bot):
                         for mode, dct in sort.items():
                             count = dct.copy()
                             for stat, value in dct.items():
-                                before = bot.main[uuid].duels.stats[stat]
+                                before = Bot.main[uuid].duels.stats[stat]
                                 emote = REPLYCONTINUE if len(count) > 1 else REPLY
                                 if mode == "General":
                                     if stat == "Blocks Placed":
@@ -154,8 +151,8 @@ async def genmsg(bot: Bot):
                         embed.set_thumbnail(url=f"https://mc-heads.net/avatar/{uuid}")
                         embed.set_footer(text="Tracking Bot | Beta 3")
                         embed.timestamp = datetime.datetime.now()
-                        bot.send[uuid]["duels"] = embed
-                        bot.main[uuid].duels.stats = duels.stats
+                        Bot.send[uuid]["duels"] = embed
+                        Bot.main[uuid].duels.stats = duels.stats
                         
         for item in config:
             for channel_id, user_dict in item["channels"].items():
@@ -163,10 +160,10 @@ async def genmsg(bot: Bot):
                 for uuid, states in user_dict.items():
                     for name, value in states.items():
                         if value:
-                            embed = bot.send[uuid][name]
+                            embed = Bot.send[uuid][name]
                             if embed:
                                 await channel.send(embed=embed)
-        bot.send = {}
+        Bot.send = {}
 
 @genmsg.before_loop
 async def _before():

@@ -201,7 +201,7 @@ class AddUser(nextcord.ui.Button):
             await interaction.send(embed=ErrorEmbed("Invalid player", f"Player named **`{name}`** never has played on Hypixel!"), ephemeral=True)
             return
         
-        # Bot.main.update({uuid: await track(data, uuid)})
+        Bot.main.update({uuid: await track(data, uuid)})
         Database.update_one("guilds", {"_id": guild}, {"$set": {"channels": result["channels"], "users": result["users"]}})
         self.view.stop()
         await self.view.message.edit(embed=embed, view=MyView(users_data, names, channel, self.view.message))
