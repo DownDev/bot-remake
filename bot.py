@@ -141,8 +141,8 @@ async def genmsg(bot: Bot):
                                     strings[mode] += f"{emote}{stats.get_emoji(stat, before, value, modes[1:])} **{before:,}** ➡️ **{value:,}** (**{round(value-before, 2):+,}**)\n"
                                 count.pop(stat)
                                 
-                        color = duels.wins_color[wins // 2]
-                        title = duels.wins_title[wins // 2][0]
+                        color = duels.wins_colors_overall[wins]
+                        title = duels.wins_titles_overall[wins][0]
                         
                         embed=Embed(title=f"{nextcord.utils.escape_markdown(rank+name)} {title}", description=description, color=color)
                         for mode, string in strings.items():

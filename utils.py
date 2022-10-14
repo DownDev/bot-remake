@@ -1,3 +1,4 @@
+from enum import Enum
 from math import floor
 from nextcord import Embed, File, utils
 import datetime
@@ -150,124 +151,6 @@ async def ifexists(uuid, session, full_check=True):
                         return api
     return False
 
-# class Bedwars():
-#     stats: dict
-    
-#     def __init__(self, stats):
-#         self.stats = stats
-
-        
-#     def __dict__(self):
-#         return self.stats
-
-#     def get_mode(self, mode):
-#         return {k: v for k, v in self.stats.items() if k.startswith(mode)}
-    
-    
-#     @staticmethod
-#     def get_bar(exp, star = None):
-#         level = getLevelForExp(exp)
-#         percent = (level - int(level)) * 100
-#         SIZE = 100 / 13
-#         amount = int(percent // SIZE)
-#         until_pres = int(level + 1) % 100
-#         if until_pres > 4:
-#             n = 5000
-#         elif until_pres == 1:
-#             n = 500
-#         elif until_pres == 2:
-#             n = 1000
-#         elif until_pres == 3:
-#             n = 2000
-#         elif until_pres == 4:
-#             n = 3500
-#         else:
-#             n = 5000
-#         curr_exp = int(percent / 100 * n)
-#         if int(level + 1) % 100 == 0:
-#             new_level = Bedwars.prestige_name(int(level + 1))
-#         else:
-#             new_level = f"Level {int(level + 1)}"
-#         if not star:
-#             return f'**Level {int(level)}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{new_level}**\n[{BWEXP_FILLED * amount + BWEXP_MISSING * (13 - amount)}]\n⠀⠀⠀⠀⠀⠀⠀**{curr_exp:,}**/**{n:,}** (**{curr_exp / n * 100:.1f}%**)\n'
-#         else:
-#             return f'**Level {star - 1}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{Bedwars.prestige_name(star)}**\n[{BWEXP_FILLED * 13}]\n**LEVEL UP!** You are now **{Bedwars.prestige_name(star)}**\n'
-
-        
-# class Duels():
-#     stats: dict
-    
-#     def __init__(self, stats):
-#         self.stats = stats
-        
-#         self.wins_title = RangeKeyDict({
-#         (0, 50): (None, 50, 0),
-#         (50, 60): ('Rookie', 60, 50),
-#         (60, 70): ('Rookie II', 70, 60),      
-#         (70, 80): ('Rookie III', 80, 70),     
-#         (80, 90): ('Rookie IV', 90, 80),      
-#         (90, 100): ('Rookie V', 100, 90),     
-#         (100, 130): ('Iron', 130, 100),       
-#         (130, 160): ('Iron II', 160, 130),    
-#         (160, 190): ('Iron III', 190, 160),   
-#         (190, 220): ('Iron IV', 220, 190),    
-#         (220, 250): ('Iron V', 250, 220),     
-#         (250, 300): ('Gold', 300, 250),       
-#         (300, 350): ('Gold II', 350, 300),    
-#         (350, 400): ('Gold III', 400, 350),   
-#         (400, 450): ('Gold IV', 450, 400),    
-#         (450, 500): ('Gold V', 500, 450),     
-#         (500, 600): ('Diamond', 600, 500),    
-#         (600, 700): ('Diamond II', 700, 600), 
-#         (700, 800): ('Diamond III', 800, 700),
-#         (800, 900): ('Diamond IV', 900, 800), 
-#         (900, 1000): ('Diamond V', 1000, 900),
-#         (1000, 1200): ('Master', 1200, 1000),
-#         (1200, 1400): ('Master II', 1400, 1200),
-#         (1400, 1600): ('Master III', 1600, 1400),
-#         (1600, 1800): ('Master IV', 1800, 1600),
-#         (1800, 2000): ('Master V', 2000, 1800),
-#         (2000, 2600): ('Legend', 2600, 2000),
-#         (2600, 3200): ('Legend II', 3200, 2600),
-#         (3200, 3800): ('Legend III', 3800, 3200),
-#         (3800, 4400): ('Legend IV', 4400, 3800),
-#         (4400, 5000): ('Legend V', 5000, 4400),
-#         (5000, 6000): ('Grandmaster', 6000, 5000),
-#         (6000, 7000): ('Grandmaster II', 7000, 6000),
-#         (7000, 8000): ('Grandmaster III', 8000, 7000),
-#         (8000, 9000): ('Grandmaster IV', 9000, 8000),
-#         (9000, 10000): ('Grandmaster V', 10000, 9000),
-#         (10000, 13000): ('Godlike', 13000, 10000),
-#         (13000, 16000): ('Godlike II', 16000, 13000),
-#         (16000, 19000): ('Godlike III', 19000, 16000),
-#         (19000, 22000): ('Godlike IV', 22000, 19000),
-#         (22000, 25000): ('Godlike V', 25000, 22000),
-#         (25000, 30000): ('Celestial', 30000, 25000),
-#         (30000, 35000): ('Celestial II', 35000, 30000),
-#         (35000, 40000): ('Celestial III', 40000, 35000),
-#         (40000, 45000): ('Celestial IV', 45000, 40000),
-#         (45000, 50000): ('Celestial V', 50000, 45000),
-#         (50000, 60000): ('Divine', 60000, 50000),
-#         (60000, 70000): ('Divine II', 70000, 60000),
-#         (70000, 80000): ('Divine III', 80000, 70000),
-#         (80000, 90000): ('Divine IV', 90000, 80000),
-#         (90000, 100000): ('Divine V', 100000, 90000),
-#         (100000, 10000000): ('Ascended', 10000000, 100000),
-#         })
-   
-#     def get_bar(self, wins):
-#         wins_next = self.wins_title[wins][1]
-#         starter = self.wins_title[wins][2]
-#         title = self.wins_title[wins][0]
-#         title_next = titles[titles.index(title) + 1]
-
-#         percent = (wins - starter) / (wins_next - starter) * 100
-#         SIZE = 100 / 13
-#         amount = int(percent // SIZE)
-#         return f"**{title_next}** unlocked in **{wins_next - wins:,}** more wins!\n({DEXP * amount + BWEXP_MISSING * (13 - amount)})\n⠀⠀⠀⠀⠀⠀⠀⠀**{wins:,}**/**{wins_next:,}** (**{round(percent, 1)}%**)\n"
-
-
-    
 @dataclass
 class Bedwars:
     stats: dict
@@ -352,13 +235,21 @@ class Bedwars:
             return f'**Level {int(level)}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{new_level}**\n[{BWEXP_FILLED * amount + BWEXP_MISSING * (13 - amount)}]\n⠀⠀⠀⠀⠀⠀⠀**{curr_exp:,}**/**{n:,}** (**{curr_exp / n * 100:.1f}%**)\n'
         else:
             return f'**Level {star - 1}**⠀⠀⠀⠀⠀⠀⠀⠀⠀**{Bedwars.prestige_name(star)}**\n[{BWEXP_FILLED * 13}]\n**LEVEL UP!** You are now **{Bedwars.prestige_name(star)}**\n'
+
+class DuelsMode(Enum):
+    GAMEMODE = 1
+    OVERALL = 2
+    
+    def __str__(self):
+        return self.name
+
 @dataclass
 class Duels:
     stats: dict
     
     titles = [None, 'Rookie', 'Rookie II', 'Rookie III', 'Rookie IV', 'Rookie V', 'Iron', 'Iron II', 'Iron III', 'Iron IV', 'Iron V', 'Gold', 'Gold II', 'Gold III', 'Gold IV', 'Gold V', 'Diamond', 'Diamond II', 'Diamond III', 'Diamond IV', 'Diamond V', 'Master', 'Master II', 'Master III', 'Master IV', 'Master V', 'Legend', 'Legend II', 'Legend III', 'Legend IV', 'Legend V', 'Grandmaster', 'Grandmaster II', 'Grandmaster III', 'Grandmaster IV', 'Grandmaster V', 'Godlike', 'Godlike II', 'Godlike III', 'Godlike IV', 'Godlike V', 'Celestial', 'Celestial II', 'Celestial III', 'Celestial IV', 'Celestial V', 'Divine', 'Divine II', 'Divine III', 'Divine IV', 'Divine V', 'Ascended']
     
-    wins_title = RangeKeyDict({
+    wins_titles_gamemode = RangeKeyDict({
         (0, 50): (None, 50, 0),
         (50, 60): ('Rookie', 60, 50),
         (60, 70): ('Rookie II', 70, 60),      
@@ -410,10 +301,162 @@ class Duels:
         (70000, 80000): ('Divine III', 80000, 70000),
         (80000, 90000): ('Divine IV', 90000, 80000),
         (90000, 100000): ('Divine V', 100000, 90000),
-        (100000, 10000000): ('Ascended', 10000000, 100000),
+        (100000, 110000): ("Ascended I", 110000, 100000),
+        (110000, 120000): ("Ascended II", 120000, 110000),
+        (120000, 130000): ("Ascended III", 130000, 120000),
+        (130000, 140000): ("Ascended IV", 140000, 130000),
+        (140000, 150000): ("Ascended V", 150000, 140000),
+        (150000, 160000): ("Ascended VI", 160000, 150000),
+        (160000, 170000): ("Ascended VII", 170000, 160000),
+        (170000, 180000): ("Ascended VIII", 180000, 170000),
+        (180000, 190000): ("Ascended IX", 190000, 180000),
+        (190000, 200000): ("Ascended X", 200000, 190000),
+        (200000, 210000): ("Ascended XI", 210000, 200000),
+        (210000, 220000): ("Ascended XII", 220000, 210000),
+        (220000, 230000): ("Ascended XIII", 230000, 220000),
+        (230000, 240000): ("Ascended XIV", 240000, 230000),
+        (240000, 250000): ("Ascended XV", 250000, 240000),
+        (250000, 260000): ("Ascended XVI", 260000, 250000),
+        (260000, 270000): ("Ascended XVII", 270000, 260000),
+        (270000, 280000): ("Ascended XVIII", 280000, 270000),
+        (280000, 290000): ("Ascended XIX", 290000, 280000),
+        (290000, 300000): ("Ascended XX", 300000, 290000),
+        (300000, 310000): ("Ascended XXI", 310000, 300000),
+        (310000, 320000): ("Ascended XXII", 320000, 310000),
+        (320000, 330000): ("Ascended XXIII", 330000, 320000),
+        (330000, 340000): ("Ascended XXIV", 340000, 330000),
+        (340000, 350000): ("Ascended XXV", 350000, 340000),
+        (350000, 360000): ("Ascended XXVI", 360000, 350000),
+        (360000, 370000): ("Ascended XXVII", 370000, 360000),
+        (370000, 380000): ("Ascended XXVIII", 380000, 370000),
+        (380000, 390000): ("Ascended XXIX", 390000, 380000),
+        (390000, 400000): ("Ascended XXX", 400000, 390000),
+        (400000, 410000): ("Ascended XXXI", 410000, 400000),
+        (410000, 420000): ("Ascended XXXII", 420000, 410000),
+        (420000, 430000): ("Ascended XXXIII", 430000, 420000),
+        (430000, 440000): ("Ascended XXXIV", 440000, 430000),
+        (440000, 450000): ("Ascended XXXV", 450000, 440000),
+        (450000, 460000): ("Ascended XXXVI", 460000, 450000),
+        (460000, 470000): ("Ascended XXXVII", 470000, 460000),
+        (470000, 480000): ("Ascended XXXVIII", 480000, 470000),
+        (480000, 490000): ("Ascended XXXIX", 490000, 480000),
+        (490000, 500000): ("Ascended XL", 500000, 490000),
+        (500000, 510000): ("Ascended XLI", 510000, 500000),
+        (510000, 520000): ("Ascended XLII", 520000, 510000),
+        (520000, 530000): ("Ascended XLIII", 530000, 520000),
+        (530000, 540000): ("Ascended XLIV", 540000, 530000),
+        (540000, 550000): ("Ascended XLV", 550000, 540000),
+        (550000, 560000): ("Ascended XLVI", 560000, 550000),
+        (560000, 570000): ("Ascended XLVII", 570000, 560000),
+        (570000, 580000): ("Ascended XLVIII", 580000, 570000),
+        (580000, 590000): ("Ascended XLIX", 590000, 580000),
+        (590000, 600000): ("Ascended L", 600000, 590000)
         })
     
-    wins_color = RangeKeyDict({
+    wins_titles_overall = RangeKeyDict({
+        (0, 100): ("Rookie", 100, 0),
+        (120, 140): ("Rookie II", 140, 120), 
+        (140, 160): ("Rookie III", 160, 140),
+        (160, 180): ("Rookie IV", 180, 160), 
+        (180, 200): ("Rookie V", 200, 180),  
+        (200, 260): ("Iron", 260, 200),      
+        (260, 320): ("Iron II", 320, 260),   
+        (320, 380): ("Iron III", 380, 320),  
+        (380, 440): ("Iron IV", 440, 380),   
+        (440, 500): ("Iron V", 500, 440),    
+        (500, 600): ("Gold", 600, 500),      
+        (600, 700): ("Gold II", 700, 600),   
+        (700, 800): ("Gold III", 800, 700),  
+        (800, 900): ("Gold IV", 900, 800),
+        (900, 1000): ("Gold V", 1000, 900),
+        (1000, 1200): ("Diamond", 1200, 1000),
+        (1200, 1400): ("Diamond II", 1400, 1200),
+        (1400, 1600): ("Diamond III", 1600, 1400),
+        (1600, 1800): ("Diamond IV", 1800, 1600),
+        (1800, 2000): ("Diamond V", 2000, 1800),
+        (2000, 2400): ("Master", 2400, 2000),
+        (2400, 2800): ("Master II", 2800, 2400),
+        (2800, 3200): ("Master III", 3200, 2800),
+        (3200, 3600): ("Master IV", 3600, 3200),
+        (3600, 4000): ("Master V", 4000, 3600),
+        (4000, 5200): ("Legend", 5200, 4000),
+        (5200, 6400): ("Legend II", 6400, 5200),
+        (6400, 7600): ("Legend III", 7600, 6400),
+        (7600, 8800): ("Legend IV", 8800, 7600),
+        (8800, 10000): ("Legend V", 10000, 8800),
+        (10000, 12000): ("Grandmaster", 12000, 10000),
+        (12000, 14000): ("Grandmaster II", 14000, 12000),
+        (14000, 16000): ("Grandmaster III", 16000, 14000),
+        (16000, 18000): ("Grandmaster IV", 18000, 16000),
+        (18000, 20000): ("Grandmaster V", 20000, 18000),
+        (20000, 26000): ("Godlike", 26000, 20000),
+        (26000, 32000): ("Godlike II", 32000, 26000),
+        (32000, 38000): ("Godlike III", 38000, 32000),
+        (38000, 44000): ("Godlike IV", 44000, 38000),
+        (44000, 50000): ("Godlike V", 50000, 44000),
+        (50000, 60000): ("Celestial", 60000, 50000),
+        (60000, 70000): ("Celestial II", 70000, 60000),
+        (70000, 80000): ("Celestial III", 80000, 70000),
+        (80000, 90000): ("Celestial IV", 90000, 80000),
+        (90000, 100000): ("Celestial V", 100000, 90000),
+        (100000, 120000): ("Divine I", 120000, 100000),
+        (120000, 140000): ("Divine II", 140000, 120000),
+        (140000, 160000): ("Divine III", 160000, 140000),
+        (160000, 180000): ("Divine IV", 180000, 160000),
+        (180000, 200000): ("Divine V", 200000, 180000),
+        (200000, 220000): ("Ascended I", 220000, 200000),
+        (220000, 240000): ("Ascended II", 240000, 220000),
+        (240000, 260000): ("Ascended III", 260000, 240000),
+        (260000, 280000): ("Ascended IV", 280000, 260000),
+        (280000, 300000): ("Ascended V", 300000, 280000),
+        (300000, 320000): ("Ascended VI", 320000, 300000),
+        (320000, 340000): ("Ascended VII", 340000, 320000),
+        (340000, 360000): ("Ascended VIII", 360000, 340000),
+        (360000, 380000): ("Ascended IX", 380000, 360000),
+        (380000, 400000): ("Ascended X", 400000, 380000),
+        (400000, 420000): ("Ascended XI", 420000, 400000),
+        (420000, 440000): ("Ascended XII", 440000, 420000),
+        (440000, 460000): ("Ascended XIII", 460000, 440000),
+        (460000, 480000): ("Ascended XIV", 480000, 460000),
+        (480000, 500000): ("Ascended XV", 500000, 480000),
+        (500000, 520000): ("Ascended XVI", 520000, 500000),
+        (520000, 540000): ("Ascended XVII", 540000, 520000),
+        (540000, 560000): ("Ascended XVIII", 560000, 540000),
+        (560000, 580000): ("Ascended XIX", 580000, 560000),
+        (580000, 600000): ("Ascended XX", 600000, 580000),
+        (600000, 620000): ("Ascended XXI", 620000, 600000),
+        (620000, 640000): ("Ascended XXII", 640000, 620000),
+        (640000, 660000): ("Ascended XXIII", 660000, 640000),
+        (660000, 680000): ("Ascended XXIV", 680000, 660000),
+        (680000, 700000): ("Ascended XXV", 700000, 680000),
+        (700000, 720000): ("Ascended XXVI", 720000, 700000),
+        (720000, 740000): ("Ascended XXVII", 740000, 720000),
+        (740000, 760000): ("Ascended XXVIII", 760000, 740000),
+        (760000, 780000): ("Ascended XXIX", 780000, 760000),
+        (780000, 800000): ("Ascended XXX", 800000, 780000),
+        (800000, 820000): ("Ascended XXXI", 820000, 800000),
+        (820000, 840000): ("Ascended XXXII", 840000, 820000),
+        (840000, 860000): ("Ascended XXXIII", 860000, 840000),
+        (860000, 880000): ("Ascended XXXIV", 880000, 860000),
+        (880000, 900000): ("Ascended XXXV", 900000, 880000),
+        (900000, 920000): ("Ascended XXXVI", 920000, 900000),
+        (920000, 940000): ("Ascended XXXVII", 940000, 920000),
+        (940000, 960000): ("Ascended XXXVIII", 960000, 940000),
+        (960000, 980000): ("Ascended XXXIX", 980000, 960000),
+        (980000, 1000000): ("Ascended XL", 1000000, 980000),
+        (1000000, 1020000): ("Ascended XLI", 1020000, 1000000),
+        (1020000, 1040000): ("Ascended XLII", 1040000, 1020000),
+        (1040000, 1060000): ("Ascended XLIII", 1060000, 1040000),
+        (1060000, 1080000): ("Ascended XLIV", 1080000, 1060000),
+        (1080000, 1100000): ("Ascended XLV", 1100000, 1080000),
+        (1100000, 1120000): ("Ascended XLVI", 1120000, 1100000),
+        (1120000, 1140000): ("Ascended XLVII", 1140000, 1120000),
+        (1140000, 1160000): ("Ascended XLVIII", 1160000, 1140000),
+        (1160000, 1180000): ("Ascended XLIX", 1180000, 1160000),
+        (1180000, 1200000): ("Ascended L", 1200000, 1180000)
+        })
+    
+    wins_colors_gamemode = RangeKeyDict({
         (0, 100): 0x535252,
         (100, 250): 0xe7e7e7,
         (250, 500): 0xe79a00,
@@ -424,15 +467,32 @@ class Duels:
         (10000, 22000): 0x9a009a,
         (22000, 50000): 0x55ffff,
         (50000, 100000): 0xfe55fe,
-        (100000, 10000000): 0xff5555,
+        (100000, 590000): 0xff5555,
+        })
+    
+    wins_colors_overall = RangeKeyDict({
+        (0, 200): 0x535252,
+        (200, 500): 0xe7e7e7,
+        (500, 1000): 0xe79a00,
+        (1000, 2000): 0x009696,
+        (2000, 4000): 0x00a201,
+        (4000, 10000): 0x970000,
+        (10000, 20000): 0xf4f553,
+        (20000, 44000): 0x9a009a,
+        (44000, 100000): 0x55ffff,
+        (100000, 200000): 0xfe55fe,
+        (200000, 1180000): 0xff5555,
         })
     
     def __ne__(self, other):
         return self.stats != other.stats
     
     @staticmethod
-    def get_bar(wins):
-        title, wins_next, starter = Duels.wins_title[wins]
+    def get_bar(wins: int, mode: DuelsMode = DuelsMode.OVERALL):
+        if mode is DuelsMode.OVERALL:
+            title, wins_next, starter = Duels.wins_titles_overall[wins]
+        elif mode is DuelsMode.GAMEMODE:
+            title, wins_next, starter = Duels.wins_titles_gamemode[wins]
         title_next = Duels.titles[Duels.titles.index(title) + 1]
 
         percent = (wins - starter) / (wins_next - starter) * 100
@@ -472,18 +532,8 @@ class StatsList:
         for mode in modes[::-1]:
             stat = stat.replace(mode, "")
         stat = stat.replace("Overall ", "")
-        return f'**{stat}** {emoji}:'
-
+        return f'**{stat}** {emoji}:'    
     
-    
-    
-    
-    
-    
-    
-    
-    
-
 async def track(data: dict, uuid: str) -> StatsList | None:
     mapping = {
         "Bedwars": {
@@ -983,99 +1033,100 @@ async def track(data: dict, uuid: str) -> StatsList | None:
         print(f"Not success 1: ({uuid})")
     return None
 
-_rank = {
-    "§c[OWNER]": OWNER,
-    "§d[PIG§b+++§d]": PIG,
-    "§6[MOJANG]": MOJANG,
-    "§6[EVENTS]": EVENTS,
-    "YOUTUBER": YOUTUBE,
-    "ADMIN": ADMIN,
-    "GAME_MASTER": GAMEMASTER,
-    "MVP": NMVP,
-    "VIP_PLUS": VIP,
-    "VIP": NVIP
-}
 
-_b_plus = {
-    "RED": BRED,
-    "ORANGE": BORANGE,
-    "GREEN": BGREEN,
-    "YELLOW": BYELLOW,
-    "LIGHT_PURPLE": BPINK,
-    "WHITE": BWHITE,
-    "BLUE": BBLUE,
-    "DARK_GREEN": BDARKGREEN,
-    "DARK_RED": BDARKRED,
-    "DARK_AQUA": BAQUA,
-    "DARK_PURPLE": BPURPLE,
-    "DARK_GRAY": BGRAY,
-    "BLACK": BBLACK,
-    "DARK_BLUE": BDARKBLUE
-}
+def get_rank(data: dict):
+    _RANK = {
+        "§c[OWNER]": OWNER,
+        "§d[PIG§b+++§d]": PIG,
+        "§6[MOJANG]": MOJANG,
+        "§6[EVENTS]": EVENTS,
+        "YOUTUBER": YOUTUBE,
+        "ADMIN": ADMIN,
+        "GAME_MASTER": GAMEMASTER,
+        "MVP": NMVP,
+        "VIP_PLUS": VIP,
+        "VIP": NVIP
+    }
 
-_g_plus = {
-    "RED": GRED,
-    "ORANGE": GORANGE,
-    "GREEN": GGREEN,
-    "YELLOW": GYELLOW,
-    "LIGHT_PURPLE": GPINK,
-    "WHITE": GWHITE,
-    "BLUE": GBLUE,
-    "DARK_GREEN": GDARKGREEN,
-    "DARK_RED": GDARKRED,
-    "DARK_AQUA": GAQUA,
-    "DARK_PURPLE": GPURPLE,
-    "DARK_GRAY": GGRAY,
-    "BLACK": GBLACK,
-    "DARK_BLUE": GDARKBLUE
-}
+    _B_PLUS = {
+        "RED": BRED,
+        "ORANGE": BORANGE,
+        "GREEN": BGREEN,
+        "YELLOW": BYELLOW,
+        "LIGHT_PURPLE": BPINK,
+        "WHITE": BWHITE,
+        "BLUE": BBLUE,
+        "DARK_GREEN": BDARKGREEN,
+        "DARK_RED": BDARKRED,
+        "DARK_AQUA": BAQUA,
+        "DARK_PURPLE": BPURPLE,
+        "DARK_GRAY": BGRAY,
+        "BLACK": BBLACK,
+        "DARK_BLUE": BDARKBLUE
+    }
 
-_plus = {
-    "RED": RED,
-    "ORANGE": ORANGE,
-    "GREEN": GREEN,
-    "YELLOW": YELLOW,
-    "LIGHT_PURPLE": PINK,
-    "WHITE": WHITE,
-    "BLUE": BLUE,
-    "DARK_GREEN": DARKGREEN,
-    "DARK_RED": DARKRED,
-    "DARK_AQUA": AQUA,
-    "DARK_PURPLE": PURPLE,
-    "DARK_GRAY": GRAY,
-    "BLACK": BLACK,
-    "DARK_BLUE": DARKBLUE
-}
+    _G_PLUS = {
+        "RED": GRED,
+        "ORANGE": GORANGE,
+        "GREEN": GGREEN,
+        "YELLOW": GYELLOW,
+        "LIGHT_PURPLE": GPINK,
+        "WHITE": GWHITE,
+        "BLUE": GBLUE,
+        "DARK_GREEN": GDARKGREEN,
+        "DARK_RED": GDARKRED,
+        "DARK_AQUA": GAQUA,
+        "DARK_PURPLE": GPURPLE,
+        "DARK_GRAY": GGRAY,
+        "BLACK": GBLACK,
+        "DARK_BLUE": GDARKBLUE
+    }
 
-def get_rank(data):
+    _PLUS = {
+        "RED": RED,
+        "ORANGE": ORANGE,
+        "GREEN": GREEN,
+        "YELLOW": YELLOW,
+        "LIGHT_PURPLE": PINK,
+        "WHITE": WHITE,
+        "BLUE": BLUE,
+        "DARK_GREEN": DARKGREEN,
+        "DARK_RED": DARKRED,
+        "DARK_AQUA": AQUA,
+        "DARK_PURPLE": PURPLE,
+        "DARK_GRAY": GRAY,
+        "BLACK": BLACK,
+        "DARK_BLUE": DARKBLUE
+    }
+    
     player = data.get("player", None)
     if not player:
         return
     custom_prefix = player.get("prefix", None)
     if custom_prefix:
-        return _rank.get(custom_prefix, custom_prefix)
+        return _RANK.get(custom_prefix, custom_prefix)
     
     rank = player.get("rank", None)
     if rank:
-        return _rank.get(rank, rank)
+        return _RANK.get(rank, rank)
     rankPlusColor = player.get("rankPlusColor", None)
     monthlyPackageRank = player.get("monthlyPackageRank", None)
     if monthlyPackageRank != "NONE" and monthlyPackageRank:
         monthlyRankColor = player.get("monthlyRankColor", None)
         
         if monthlyRankColor == "AQUA":
-            plus = _b_plus.get(rankPlusColor, BRED)
+            plus = _B_PLUS.get(rankPlusColor, BRED)
             return BMVP+plus
             
-        plus = _g_plus.get(rankPlusColor, GRED)
+        plus = _G_PLUS.get(rankPlusColor, GRED)
         return GMVP+plus
     
     newPackageRank = player.get("newPackageRank", None)
     if newPackageRank == "MVP_PLUS":
-        plus = _plus.get(rankPlusColor, RED)
+        plus = _PLUS.get(rankPlusColor, RED)
         return MVP+plus
         
-    return _rank.get(newPackageRank, "")
+    return _RANK.get(newPackageRank, "")
         
 async def get_stats(data: dict, mode: str) -> dict[str, int | float] | list[dict[str, int] | list[int]] | list[int] | None:
     if "success" in data and "player" in data:
