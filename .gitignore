@@ -1,7 +1,7 @@
 test*
 modals/
 __pycache__/
-
+.*
 
 cog.py
 snippets.py
