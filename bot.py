@@ -9,6 +9,9 @@ import os
 import aiohttp
 from emojis import *
 from database import Database
+from dotenv import load_dotenv
+
+load_dotenv()
 
 async def fetch(uuid, session):
     limiter = AsyncRateLimiter(max_rate=120, interval=60) # 320
@@ -173,4 +176,4 @@ async def _before():
 #     await bot.wait_until_ready()
 # cycle.start(bot)
 genmsg.start(bot)
-bot.run(TOKEN)
+bot.run(os.environ["TOKEN"])
